@@ -58,7 +58,7 @@ namespace Roberts
             for (var i = 0; i < result.Height; ++i)
             {
                 result[i, 0] = (int)(halfWidth * projectedVertices[i, 0] + halfWidth);
-                result[i, 1] = (int)(halfHeight * projectedVertices[i, 1] + halfHeight);
+                result[i, 1] = (int)(-halfHeight * projectedVertices[i, 1] + halfHeight);
             }
             return result;
         }

@@ -43,6 +43,8 @@ namespace Roberts
             m_vertices = vertices;
         }
 
+        public void SetTranslation(MyMatrix<double> translation) { m_translation = translation; }
+
         public MyMatrix<double> GetWorldCoordinates()
         {
             return m_vertices * m_translation * m_rotation * m_scale;

@@ -8,7 +8,8 @@
         Title="MainWindow" Height="351.983" Width="610.269" Name="mainWindow">
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="270" Margin="22,20,0,0" VerticalAlignment="Top" Width="465"/>
-        
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="487,64,0,0" VerticalAlignment="Top" Height="22" Width="84" ValueChanged="slider_ValueChanged" Minimum="-1" Maximum="1"/>
+
 
     </Grid>
 </Window>

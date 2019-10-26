@@ -21,6 +21,9 @@ namespace Roberts
     public partial class MainWindow : Window
     {
         private WriteableBitmap writeableBitmap;
+        private Mesh tethraeder;
+        private Drawer drawer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,7 +49,7 @@ namespace Roberts
                 {2, 0, 1}
             };
 
-            var tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
+             tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
 
             var r = -1.0 / 5.0;
             var perspective = new double[,]
@@ -58,7 +61,20 @@ namespace Roberts
             };
             var projection = new MyMatrix<double>(perspective);
 
-            var drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
+            drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
+            drawer.Draw(writeableBitmap, tethraeder);
+        }
+
+        private void ClearImage()
+        {
+            DrawAlgorithm.ResetColor(Colors.Black, writeableBitmap);
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            var translation = TransformFactory.CreateTranslation(slider.Value, 0, 0);
+            tethraeder.SetTranslation(translation);
+            ClearImage();
             drawer.Draw(writeableBitmap, tethraeder);
         }
     }
