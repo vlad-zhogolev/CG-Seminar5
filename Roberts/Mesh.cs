@@ -14,6 +14,8 @@ namespace Roberts
         private MyMatrix<double> m_rotation = MyMatrix<double>.Incident(4);
         private MyMatrix<double> m_scale = MyMatrix<double>.Incident(4);
 
+        public MyMatrix<int> Faces { get { return m_faces; } }
+
         public Mesh(MyMatrix<int> faces, MyMatrix<double> vertices)
         {
             if (faces == null || vertices == null)
@@ -41,7 +43,7 @@ namespace Roberts
             m_vertices = vertices;
         }
 
-        MyMatrix<double> GetWorldCoordinates()
+        public MyMatrix<double> GetWorldCoordinates()
         {
             return m_vertices * m_translation * m_rotation * m_scale;
         }

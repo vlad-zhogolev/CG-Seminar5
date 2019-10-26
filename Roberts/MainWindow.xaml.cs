@@ -20,21 +20,46 @@ namespace Roberts
     /// </summary>
     public partial class MainWindow : Window
     {
+        private WriteableBitmap writeableBitmap;
         public MainWindow()
         {
             InitializeComponent();
-            var a = new MyMatrix<double>(new double[,]
+            writeableBitmap = new WriteableBitmap((int)image.Width, (int)image.Height, 96, 96, PixelFormats.Bgr32, null);
+            image.Source = writeableBitmap;
+            image.Stretch = Stretch.None;
+            image.HorizontalAlignment = HorizontalAlignment.Left;
+            image.VerticalAlignment = VerticalAlignment.Top;
+
+            var vertices = new double[,]
             {
-                {1.0, 0.0},
-                {0.0, 2.0}
-            });
-            var b = new MyMatrix<double>(new double[,]
+                {0, 0, 0, 1},
+                {1, 0, 0, 1},
+                {0.5, -0.2, 1, 1},
+                {0.5, 1, 0.5, 1}
+            };
+
+            var faces = new int[,]
             {
-                {1.0, 2.0},
-                {2.0, 3.0}
-            });
-            var result = a * b;
-            result = MyMatrix<double>.Incident(3);
+                {1, 0, 3},
+                {2, 1, 3},
+                {0, 2, 3},
+                {2, 0, 1}
+            };
+
+            var tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
+
+            var r = -1.0 / 5.0;
+            var perspective = new double[,]
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 0, r },
+                { 0, 0, 0, 1 }
+            };
+            var projection = new MyMatrix<double>(perspective);
+
+            var drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
+            drawer.Draw(writeableBitmap, tethraeder);
         }
     }
 }
