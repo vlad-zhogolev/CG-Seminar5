@@ -23,6 +23,18 @@ namespace Roberts
         public MainWindow()
         {
             InitializeComponent();
+            var a = new MyMatrix<double>(new double[,]
+            {
+                {1.0, 0.0},
+                {0.0, 2.0}
+            });
+            var b = new MyMatrix<double>(new double[,]
+            {
+                {1.0, 2.0},
+                {2.0, 3.0}
+            });
+            var result = a * b;
+            result = MyMatrix<double>.Incident(3);
         }
     }
 }
