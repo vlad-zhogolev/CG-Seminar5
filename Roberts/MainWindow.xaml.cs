@@ -49,8 +49,8 @@ namespace Roberts
                 {2, 0, 1}
             };
 
-             tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-
+            //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
+            tethraeder = ShapeFactory.CreateShape(Shape.Tetrahedron, 1);
             var r = -1.0 / 5.0;
             var perspective = new double[,]
             {
