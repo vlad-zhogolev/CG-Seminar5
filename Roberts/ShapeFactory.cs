@@ -29,6 +29,8 @@ namespace Roberts
                     return CreateOctahedron(radius);
                 case Shape.Dodecahedron:
                     return CreateDodecahedron(radius);
+                case Shape.Icosahedron:
+                    return CreateIcosahedron(radius);
                 default:
                     throw new ArgumentException("Can't create shape of type: " + shape);
             }
@@ -178,6 +180,65 @@ namespace Roberts
                  {2 , 6 ,  8 ,  15,  9   },
                  { 19, 0 ,  3 ,  18,  14 }
             });
+            return new Mesh(faces, vertices);
+        }
+
+        private static Mesh CreateIcosahedron(double r)
+        {
+            var vertices = new MyMatrix<double>(12, 4);
+            var goldenRatio = (1 + Math.Sqrt(5)) / 2.0;
+            // zero x plane
+            vertices[0, 0] = vertices[1, 0] = vertices[2, 0] = vertices[3, 0] = 0;
+            vertices[0, 1] = vertices[1, 1] = 1;
+            vertices[2, 1] = vertices[3, 1] = -1;
+            vertices[0, 2] = vertices[3, 2] = goldenRatio;
+            vertices[1, 2] = vertices[2, 2] = -goldenRatio;
+            // zero y plane
+            vertices[4, 1] = vertices[5, 1] = vertices[6, 1] = vertices[7, 1] = 0;
+            vertices[4, 0] = vertices[5, 0] = -goldenRatio;
+            vertices[6, 0] = vertices[7, 0] = goldenRatio;
+            vertices[4, 2] = vertices[7, 2] = 1;
+            vertices[5, 2] = vertices[6, 2] = -1;
+
+            // zero z plane
+            vertices[8, 2] = vertices[9, 2] = vertices[10, 2] = vertices[11, 2] = 0;
+            vertices[8, 0] = vertices[11, 0] = -1;
+            vertices[9, 0] = vertices[10, 0] = 1;
+            vertices[8, 1] = vertices[9, 1] = goldenRatio;
+            vertices[10, 1] = vertices[11, 1] = -goldenRatio;
+
+            var incident = MyMatrix<double>.Incident(4, r);
+            vertices = vertices * incident;
+
+            for (var i = 0; i < vertices.Height; ++i)
+            {
+                vertices[i, 3] = 1;
+            }
+
+            var faces = new MyMatrix<int>(new int[,]
+            {
+                { 8, 5, 4 },
+                { 8, 4, 0 },
+                { 8, 0, 9 },
+                { 8, 9, 1 },
+                { 8, 1, 5 },
+                { 7, 9, 0 },
+                { 7, 0, 3 },
+                { 7, 3, 10 },
+                { 7, 10, 6 },
+                { 7, 6, 9},
+                { 11, 3, 4 },
+                { 11, 4, 5 },
+                { 11, 5, 2 },
+                { 11, 2, 10 },
+                { 11, 10, 3 },
+                { 0, 4, 3 },
+                { 6, 9, 1 },
+                { 6, 10, 2 },
+                { 1, 2, 5 },
+                { 6, 2, 1 },
+            });
+
             return new Mesh(faces, vertices);
         }
     }
