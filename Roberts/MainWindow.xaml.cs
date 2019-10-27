@@ -50,8 +50,8 @@ namespace Roberts
             };
 
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-            tethraeder = ShapeFactory.CreateShape(Shape.Hexahedron, 1);
-            var r = -1.0 / 5.0;
+            tethraeder = ShapeFactory.CreateShape(Shape.Octahedron, 0.5);
+            var r = -1.0 / 15.0;
             var perspective = new double[,]
             {
                 { 1, 0, 0, 0 },
@@ -72,7 +72,7 @@ namespace Roberts
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            var translation = TransformFactory.CreateTranslation(slider.Value, 0, 0);
+            var translation = TransformFactory.CreateTranslation(0, slider.Value, 0);
             tethraeder.SetTranslation(translation);
             ClearImage();
             drawer.Draw(writeableBitmap, tethraeder);

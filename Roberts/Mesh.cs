@@ -101,6 +101,8 @@ namespace Roberts
 
         public void SetTranslation(MyMatrix<double> translation) { m_translation = translation; }
 
+        public void SetRotation(MyMatrix<double> rotation) { m_rotation = rotation; }
+
         public MyMatrix<double> GetWorldCoordinates()
         {
             return m_vertices * m_translation * m_rotation * m_scale;

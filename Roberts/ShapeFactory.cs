@@ -25,6 +25,8 @@ namespace Roberts
                     return CreateTethraedron(radius);
                 case Shape.Hexahedron:
                     return CreateHexaedron(radius);
+                case Shape.Octahedron:
+                    return CreateOctahedron(radius);
                 default:
                     throw new ArgumentException("Can't create shape of type: " + shape);
             }
@@ -86,6 +88,43 @@ namespace Roberts
                 {4, 7, 6, 5 }, // up
                 {0, 1, 2, 3 }, // bottom
             });
+            return new Mesh(faces, vertices);
+        }
+
+        private static Mesh CreateOctahedron(double r)
+        {
+            var vertices = new MyMatrix<double>(6, 4);
+            var a = 6 * r / Math.Sqrt(6);
+
+            vertices[0, 0] = vertices[1, 0] = -a / 2;
+            vertices[2, 0] = vertices[3, 0] = a / 2;
+            vertices[4, 0] = vertices[5, 0] = 0;
+
+            vertices[0, 1] = vertices[1, 1] = vertices[2, 1] = vertices[3, 1] = 0;
+            vertices[4, 1] = r;
+            vertices[5, 1] = -r;
+
+            vertices[1, 2] = vertices[2, 2] = -a / 2;
+            vertices[0, 2] = vertices[3, 2] = a / 2;
+            vertices[4, 2] = vertices[5, 2] = 0;
+
+            for (var i = 0; i < vertices.Height; ++i)
+            {
+                vertices[i, 3] = 1;
+            }
+
+            var faces = new MyMatrix<int>(new int[,]
+            {
+                { 1, 0, 4 },
+                { 2, 1, 4 },
+                { 3, 2, 4 },
+                { 0, 3, 4 },
+                { 0, 1, 5 },
+                { 1, 2, 5 },
+                { 2, 3, 5 },
+                { 3, 0, 5 }
+            });
+
             return new Mesh(faces, vertices);
         }
     }
