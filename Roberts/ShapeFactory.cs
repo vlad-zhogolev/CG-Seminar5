@@ -27,6 +27,8 @@ namespace Roberts
                     return CreateHexaedron(radius);
                 case Shape.Octahedron:
                     return CreateOctahedron(radius);
+                case Shape.Dodecahedron:
+                    return CreateDodecahedron(radius);
                 default:
                     throw new ArgumentException("Can't create shape of type: " + shape);
             }
@@ -125,6 +127,57 @@ namespace Roberts
                 { 3, 0, 5 }
             });
 
+            return new Mesh(faces, vertices);
+        }
+
+        private static Mesh CreateDodecahedron(double r)
+        {
+            var vertices = new MyMatrix<double>(new double[,] {
+                { 0.469 ,    0.469 ,    0.469, 1 },
+                { 0.290,     0.000,     0.759, 1},
+                {-0.759,    -0.290,     0.000, 1},
+                { 0.759,     0.290,     0.000, 1},
+                {-0.469,     0.469,    -0.469, 1},
+                { 0.000,    -0.759,    -0.290, 1},
+                {-0.759,     0.290,     0.000, 1},
+                { 0.469,    -0.469,     0.469, 1},
+                {-0.469,     0.469,     0.469, 1},
+                {-0.469,    -0.469,     0.469, 1},
+                { 0.469,    -0.469,    -0.469, 1},
+                { 0.290,     0.000,    -0.759, 1},
+                {-0.469,    -0.469,    -0.469, 1},
+                { 0.000,    -0.759,     0.290, 1},
+                { 0.000,     0.759,    -0.290, 1},
+                {-0.290,     0.000,     0.759, 1},
+                { 0.759,    -0.290,     0.000, 1},
+                {-0.290,     0.000,    -0.759, 1},
+                { 0.469,     0.469,    -0.469, 1},
+                { 0.000,     0.759,     0.290, 1 }
+            });
+
+            var incident = MyMatrix<double>.Incident(4, r);
+            vertices = vertices * incident;
+
+            for (var i = 0; i < vertices.Height; ++i)
+            {
+                vertices[i, 3] = 1;
+            }
+
+            var faces = new MyMatrix<int>(new int[,]
+            {
+                 {9 , 13,  7 ,  1 ,  15  },
+                 {6 , 4 ,  14,  19,  8   },
+                 {12, 5 ,  13,  9 ,  2   },
+                 {6 , 2 ,  12,  17,  4   },
+                 {16, 10,  11,  18,  3   },
+                 {19, 8 ,  15,  1 ,  0   },
+                 {16, 7 ,  1 ,  0 ,  3   },
+                 {5 , 12,  17,  11,  10  },
+                 {18, 14,  4 ,  17,  11  },
+                 {16, 10,  5 ,  13,  7   },
+                 {2 , 6 ,  8 ,  15,  9   },
+                 { 19, 0 ,  3 ,  18,  14 }
+            });
             return new Mesh(faces, vertices);
         }
     }

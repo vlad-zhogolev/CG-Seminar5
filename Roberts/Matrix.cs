@@ -57,6 +57,16 @@ namespace Roberts
             return result;
         }
 
+        public static MyMatrix<T> Incident(int size, T value)
+        {
+            var result = new MyMatrix<T>(size);
+            for (var i = 0; i < size; ++i)
+            {
+                result[i, i] = (dynamic)default(T) + value;
+            }
+            return result;
+        }
+
         public T this [int i, int j]
         {
             get { return m_matrix[i, j]; }
