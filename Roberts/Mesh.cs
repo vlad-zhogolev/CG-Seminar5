@@ -33,20 +33,47 @@ namespace Roberts
         private IList<int> m_indices = null;
     }
 
+    class FaceBuilder
+    {
+        private IList<int> m_indices = new List<int>(0);
+        
+        public Face Build()
+        {
+            var result = new Roberts.Face(m_indices);
+            m_indices = new List<int>(0); ;
+            return result;
+        }
+
+        public void Add(int index)
+        {
+            m_indices.Add(index);
+        }
+
+        public void Add(int[] indices)
+        {
+            foreach (var index in indices)
+            {
+                m_indices.Add(index);
+            }
+        }
+    }
+
     class Mesh
     {
-        private MyMatrix<int> m_faces = null;
+        private IList<Face> m_faces = new List<Face>(0);
         private MyMatrix<double> m_vertices = null;
         private MyMatrix<double> m_translation = MyMatrix<double>.Incident(4);
         private MyMatrix<double> m_rotation = MyMatrix<double>.Incident(4);
         private MyMatrix<double> m_scale = MyMatrix<double>.Incident(4);
 
-        public MyMatrix<int> Faces { get { return m_faces; } }
+        public IList<Face> Faces { get { return m_faces; } }
 
         public Mesh(IList<Face> faces, MyMatrix<double> vertices)
         {
             CheckNullFacesOrVertices(faces, vertices);
-            
+            CheckVerticesShape(vertices);
+            m_faces = faces;
+            m_vertices = vertices;
         }
 
         public Mesh(MyMatrix<int> faces, MyMatrix<double> vertices)
@@ -59,14 +86,16 @@ namespace Roberts
                     ", width = " + faces.Width
                 );
             }
-            if (vertices.Height < 3 || vertices.Width != 4)
+            CheckVerticesShape(vertices);
+            for (int i = 0; i < faces.Height; ++i)
             {
-                throw new ArgumentException(
-                    "Wrong vertices matrix size, height = " + vertices.Height +
-                    ", width = " + vertices.Width
-                );
+                var faceBuilder = new FaceBuilder();
+                for (var j = 0; j < faces.Width; ++j)
+                {
+                    faceBuilder.Add(faces[i, j]);
+                }
+                m_faces.Add(faceBuilder.Build());
             }
-            m_faces = faces;
             m_vertices = vertices;
         }
 
@@ -84,6 +113,17 @@ namespace Roberts
                 throw new ArgumentException(
                     "Faces are " + (faces == null ? "" : "not") + " null, " +
                     "vertices are: " + (faces == null ? "" : "not") + " null"
+                );
+            }
+        }
+
+        private void CheckVerticesShape(MyMatrix<double> vertices)
+        {
+            if (vertices.Height < 3 || vertices.Width != 4)
+            {
+                throw new ArgumentException(
+                    "Wrong vertices matrix size, height = " + vertices.Height +
+                    ", width = " + vertices.Width
                 );
             }
         }

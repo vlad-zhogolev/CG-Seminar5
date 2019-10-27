@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Drawer.cs" />
     <Compile Include="Mesh.cs" />
+    <Compile Include="ShapeFactory.cs" />
     <Compile Include="TransformFactory.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="MainWindow.xaml">

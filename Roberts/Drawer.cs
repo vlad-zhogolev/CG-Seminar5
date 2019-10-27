@@ -25,14 +25,14 @@ namespace Roberts
         {
             var projectedVertices = Project(mesh.GetWorldCoordinates());
             var screenCoordinates = CalculateScreenCoordinates(projectedVertices);
-            for (var i = 0; i < mesh.Faces.Height; ++i)
+            for (var i = 0; i < mesh.Faces.Count; ++i)
             {
-                for (var j = 0; j < mesh.Faces.Width; ++j)
+                for (var j = 0; j < mesh.Faces[i].Indices.Count; ++j)
                 {
-                    var x1 = screenCoordinates[mesh.Faces[i, j], 0];
-                    var y1 = screenCoordinates[mesh.Faces[i, j], 1];
-                    var x2 = screenCoordinates[mesh.Faces[i, (j + 1) % mesh.Faces.Width], 0];
-                    var y2 = screenCoordinates[mesh.Faces[i, (j + 1) % mesh.Faces.Width], 1];
+                    var x1 = screenCoordinates[mesh.Faces[i].Indices[j], 0];
+                    var y1 = screenCoordinates[mesh.Faces[i].Indices[j], 1];
+                    var x2 = screenCoordinates[mesh.Faces[i].Indices[(j + 1) % mesh.Faces[i].Indices.Count], 0];
+                    var y2 = screenCoordinates[mesh.Faces[i].Indices[(j + 1) % mesh.Faces[i].Indices.Count], 1];
                     DrawAlgorithm.DrawLine(bitmap, Colors.Blue, x1, y1, x2, y2);
                 }
             }
