@@ -12,7 +12,8 @@ namespace Roberts
         Hexahedron,
         Octahedron,
         Dodecahedron,
-        Icosahedron
+        Icosahedron,
+        Sphere
     }
 
     class ShapeFactory
@@ -31,6 +32,8 @@ namespace Roberts
                     return CreateDodecahedron(radius);
                 case Shape.Icosahedron:
                     return CreateIcosahedron(radius);
+                case Shape.Sphere:
+                    return CreateSphere(radius);
                 default:
                     throw new ArgumentException("Can't create shape of type: " + shape);
             }
@@ -187,28 +190,27 @@ namespace Roberts
         {
             var vertices = new MyMatrix<double>(12, 4);
             var goldenRatio = (1 + Math.Sqrt(5)) / 2.0;
+            var a = Math.Sqrt((r * r) / (1 + goldenRatio * goldenRatio));
+            var b = a * goldenRatio;
             // zero x plane
             vertices[0, 0] = vertices[1, 0] = vertices[2, 0] = vertices[3, 0] = 0;
-            vertices[0, 1] = vertices[1, 1] = 1;
-            vertices[2, 1] = vertices[3, 1] = -1;
-            vertices[0, 2] = vertices[3, 2] = goldenRatio;
-            vertices[1, 2] = vertices[2, 2] = -goldenRatio;
+            vertices[0, 1] = vertices[1, 1] = a;
+            vertices[2, 1] = vertices[3, 1] = -a;
+            vertices[0, 2] = vertices[3, 2] = b;
+            vertices[1, 2] = vertices[2, 2] = -b;
             // zero y plane
             vertices[4, 1] = vertices[5, 1] = vertices[6, 1] = vertices[7, 1] = 0;
-            vertices[4, 0] = vertices[5, 0] = -goldenRatio;
-            vertices[6, 0] = vertices[7, 0] = goldenRatio;
-            vertices[4, 2] = vertices[7, 2] = 1;
-            vertices[5, 2] = vertices[6, 2] = -1;
+            vertices[4, 0] = vertices[5, 0] = -b;
+            vertices[6, 0] = vertices[7, 0] = b;
+            vertices[4, 2] = vertices[7, 2] = a;
+            vertices[5, 2] = vertices[6, 2] = -a;
 
             // zero z plane
             vertices[8, 2] = vertices[9, 2] = vertices[10, 2] = vertices[11, 2] = 0;
-            vertices[8, 0] = vertices[11, 0] = -1;
-            vertices[9, 0] = vertices[10, 0] = 1;
-            vertices[8, 1] = vertices[9, 1] = goldenRatio;
-            vertices[10, 1] = vertices[11, 1] = -goldenRatio;
-
-            var incident = MyMatrix<double>.Incident(4, r);
-            vertices = vertices * incident;
+            vertices[8, 0] = vertices[11, 0] = -a;
+            vertices[9, 0] = vertices[10, 0] = a;
+            vertices[8, 1] = vertices[9, 1] = b;
+            vertices[10, 1] = vertices[11, 1] = -b;
 
             for (var i = 0; i < vertices.Height; ++i)
             {
@@ -238,6 +240,46 @@ namespace Roberts
                 { 1, 2, 5 },
                 { 6, 2, 1 },
             });
+
+            return new Mesh(faces, vertices);
+        }
+
+        private static Mesh CreateSphere(double r)
+        {
+            var horizontalSegments = 15;
+            var verticalSegments = 15;
+            var vertices = new MyMatrix<double>(horizontalSegments * (verticalSegments + 1), 4);
+
+            for (var i = 0; i <= verticalSegments; ++i)
+            {
+                var theta = - Math.PI / 2 + Math.PI / verticalSegments * i;
+                var y = r * Math.Sin(theta);
+                var projection = r * Math.Cos(theta);
+                for (var j = 0; j < horizontalSegments; ++j)
+                {
+                    var fi = 2 * Math.PI / horizontalSegments * j;
+                    var x = projection * Math.Cos(fi);
+                    var z = projection * Math.Sin(fi);
+
+                    vertices[i * verticalSegments + j, 0] = x;
+                    vertices[i * verticalSegments + j, 1] = y;
+                    vertices[i * verticalSegments + j, 2] = z;
+                    vertices[i * verticalSegments + j, 3] = 1;
+                }
+            }
+
+            var faces = new MyMatrix<int>(horizontalSegments * verticalSegments, 4);
+            for (var i = 0; i < verticalSegments; ++i)
+            {
+                for (var j = 0; j < horizontalSegments; ++j) 
+                {
+                    var index = i * verticalSegments + j;
+                    faces[index, 0] = index;
+                    faces[index, 1] = (index + 1) % horizontalSegments == 0 ? index - horizontalSegments + 1 : index + 1;
+                    faces[index, 2] = (index + 1) % horizontalSegments == 0 ? index + 1 : index + horizontalSegments + 1;
+                    faces[index, 3] = index + horizontalSegments;
+                }
+            }
 
             return new Mesh(faces, vertices);
         }
