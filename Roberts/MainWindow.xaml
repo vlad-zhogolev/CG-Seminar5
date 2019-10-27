@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Roberts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="351.983" Width="610.269" Name="mainWindow">
+        Title="MainWindow" Height="700" Width="800" Name="mainWindow">
     <Grid>
-        <Image x:Name="image" HorizontalAlignment="Left" Height="270" Margin="22,20,0,0" VerticalAlignment="Top" Width="465"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="487,64,0,0" VerticalAlignment="Top" Height="22" Width="84" ValueChanged="slider_ValueChanged" Minimum="-1" Maximum="1"/>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="600" Margin="23,36,0,0" VerticalAlignment="Top" Width="600"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="642,59,0,0" VerticalAlignment="Top" Height="22" Width="84" ValueChanged="slider_ValueChanged" Minimum="-1" Maximum="1"/>
 
 
     </Grid>
