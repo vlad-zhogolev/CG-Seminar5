@@ -36,6 +36,10 @@ namespace Roberts
                     DrawAlgorithm.DrawLine(bitmap, Colors.Blue, x1, y1, x2, y2);
                 }
             }
+            //for (var i = 0; i < mesh.Vertices.Height; ++i)
+            //{
+            //    DrawAlgorithm.SetPixelIfPossible(screenCoordinates[i, 0], screenCoordinates[i, 1], Colors.White, bitmap);
+            //}
         }
 
         private MyMatrix<double> Project(MyMatrix<double> vertices)

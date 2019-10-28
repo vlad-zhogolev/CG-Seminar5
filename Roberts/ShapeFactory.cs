@@ -411,16 +411,15 @@ namespace Roberts
                 var numberOfVerticesInLine = lineNumber + 1;
                 faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine, index + numberOfVerticesInLine + 1 });
                 faces.Add(faceBuilder.Build());
-                ++index;
-                for (var vertexNumberInLine = 1; vertexNumberInLine < numberOfVerticesInLine - 1; ++vertexNumberInLine)
+                for (var vertexNumberInLine = 0; vertexNumberInLine < numberOfVerticesInLine - 1; ++vertexNumberInLine)
                 {
                     faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine + 1, index + 1 });
                     faces.Add(faceBuilder.Build());
                     ++index;
                     faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine, index + numberOfVerticesInLine + 1 });
                     faces.Add(faceBuilder.Build());
-                    ++index;
                 }
+                ++index;
             }
         }
     }

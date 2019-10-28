@@ -68,6 +68,8 @@ namespace Roberts
 
         public IList<Face> Faces { get { return m_faces; } }
 
+        public MyMatrix<double> Vertices { get { return m_vertices; } }
+
         public Mesh(IList<Face> faces, MyMatrix<double> vertices)
         {
             CheckNullFacesOrVertices(faces, vertices);
