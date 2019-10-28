@@ -13,12 +13,13 @@ namespace Roberts
         Octahedron,
         Dodecahedron,
         Icosahedron,
-        Sphere
+        Sphere,
+        SphereWithoutPole
     }
 
     class ShapeFactory
     {
-        public static Mesh CreateShape(Shape shape, double radius)
+        public static Mesh CreateShape(Shape shape, double radius, int subdivisions = 2)
         {
             switch (shape)
             {
@@ -34,6 +35,8 @@ namespace Roberts
                     return CreateIcosahedron(radius);
                 case Shape.Sphere:
                     return CreateSphere(radius);
+                case Shape.SphereWithoutPole:
+                    return CreateSphereWithoutPole(radius, subdivisions);
                 default:
                     throw new ArgumentException("Can't create shape of type: " + shape);
             }
@@ -282,6 +285,143 @@ namespace Roberts
             }
 
             return new Mesh(faces, vertices);
+        }
+
+        private static Mesh CreateSphereWithoutPole(double r, int subdivisions)
+        {
+            var vertices = new MyMatrix<double>(4, 4);
+            var a = 4 * r / Math.Sqrt(6);
+            var c = (a / 2) / Math.Cos(Utilities.ToRadians(30));
+            for (var i = 0; i < 3; ++i)
+            {
+                vertices[i, 0] = c * (Math.Cos(Utilities.ToRadians(150 + i * 120)));
+                vertices[i, 1] = -Math.Sqrt(r * r - c * c);
+                vertices[i, 2] = c * (Math.Sin(Utilities.ToRadians(-30 + i * 120)));
+            }
+            vertices[3, 0] = 0;
+            vertices[3, 1] = r;
+            vertices[3, 2] = 0;
+            for (var i = 0; i < vertices.Height; ++i)
+            {
+                vertices[i, 3] = 1;
+            }
+
+            var sphereVertices = new MyMatrix<double>(4 * ((int)Math.Pow(2, subdivisions) + 1) * ((int)Math.Pow(2, subdivisions) + 2), 4);
+
+            var numberOfSegments = (int)Math.Pow(2, subdivisions);
+            var numberOfVerticesInFace = ((int)Math.Pow(2, subdivisions) + 1) * ((int)Math.Pow(2, subdivisions) + 2) / 2;
+
+            // Create vertices for  0-2-3 face
+            var newLineXStep = (vertices[0, 0] - vertices[3, 0]) / numberOfSegments;
+            var newLineYStep = (vertices[0, 1] - vertices[3, 1]) / numberOfSegments;
+            var newLineZStep = (vertices[0, 2] - vertices[3, 2]) / numberOfSegments;
+
+            var xStep = (vertices[2, 0] - vertices[0, 0]) / numberOfSegments;
+            var yStep = (vertices[2, 1] - vertices[0, 1]) / numberOfSegments;
+            var zStep = (vertices[2, 2] - vertices[0, 2]) / numberOfSegments;
+                 
+            CreateVerticesForFace(
+                  vertices[3, 0]
+                , vertices[3, 1]
+                , vertices[3, 2]
+                , newLineXStep
+                , newLineYStep
+                , newLineZStep
+                , xStep
+                , yStep
+                , zStep
+                , r
+                , subdivisions
+                , 0
+                , sphereVertices);
+
+            var faces = new List<Face>();
+
+            CreateFacesForFace(
+                0
+                , subdivisions
+                , sphereVertices
+                , faces);
+
+            for (int i = 0; i < sphereVertices.Height; ++i)
+            {
+                sphereVertices[i, 3] = 1;
+            }
+
+            return new Mesh(faces, sphereVertices);
+        }
+
+        private static void CreateVerticesForFace(
+              double xStart
+            , double yStart
+            , double zStart
+            , double newLineXStep
+            , double newLineYStep
+            , double newLineZStep
+            , double xStep
+            , double yStep
+            , double zStep
+            , double radius
+            , int subdivisions
+            , int startIndex
+            , MyMatrix<double> vertices)
+        {            
+            vertices[startIndex, 0] = xStart;
+            vertices[startIndex, 1] = yStart;
+            vertices[startIndex, 2] = zStart;
+
+            var numberOfLines = (int)Math.Pow(2, subdivisions) + 1;
+            for (int lineNumber = 1, index = startIndex + 1; lineNumber < numberOfLines; ++lineNumber)
+            {
+                var firstVertexX = xStart + newLineXStep * lineNumber;
+                var firstVertexY = yStart + newLineYStep * lineNumber;
+                var firstVertexZ = zStart + newLineZStep * lineNumber;
+                var numberOfVerticesInLine = lineNumber + 1;
+                for (int vertexNumberInLine = 0; vertexNumberInLine < numberOfVerticesInLine; ++vertexNumberInLine)
+                {
+                    var x = firstVertexX + xStep * vertexNumberInLine;
+                    var y = firstVertexY + yStep * vertexNumberInLine;
+                    var z = firstVertexZ + zStep * vertexNumberInLine;
+
+                    var length = Utilities.Length(x, y, z, 0, 0, 0);
+                    x *= radius / length;
+                    y *= radius / length;
+                    z *= radius / length;
+
+                    vertices[index, 0] = x;
+                    vertices[index, 1] = y;
+                    vertices[index, 2] = z;
+                    ++index;
+                }
+            }
+        }
+
+        private static void CreateFacesForFace(
+              int startIndex
+            , int subdivisions
+            , MyMatrix<double> vertices
+            , IList<Face> faces)
+        {
+            var numberOfLines = (int)Math.Pow(2, subdivisions) + 1;
+
+            var faceBuilder = new FaceBuilder();
+
+            for(int lineNumber = 0, index = startIndex; lineNumber < numberOfLines - 1; ++lineNumber)
+            {
+                var numberOfVerticesInLine = lineNumber + 1;
+                faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine, index + numberOfVerticesInLine + 1 });
+                faces.Add(faceBuilder.Build());
+                ++index;
+                for (var vertexNumberInLine = 1; vertexNumberInLine < numberOfVerticesInLine - 1; ++vertexNumberInLine)
+                {
+                    faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine + 1, index + 1 });
+                    faces.Add(faceBuilder.Build());
+                    ++index;
+                    faceBuilder.Add(new int[] { index, index + numberOfVerticesInLine, index + numberOfVerticesInLine + 1 });
+                    faces.Add(faceBuilder.Build());
+                    ++index;
+                }
+            }
         }
     }
 }
