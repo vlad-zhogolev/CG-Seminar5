@@ -307,41 +307,15 @@ namespace Roberts
             }
 
             var sphereVertices = new MyMatrix<double>(4 * ((int)Math.Pow(2, subdivisions) + 1) * ((int)Math.Pow(2, subdivisions) + 2), 4);
+            var faces = new List<Face>();
 
             var numberOfSegments = (int)Math.Pow(2, subdivisions);
             var numberOfVerticesInFace = ((int)Math.Pow(2, subdivisions) + 1) * ((int)Math.Pow(2, subdivisions) + 2) / 2;
 
-            // Create vertices for  0-2-3 face
-            var newLineXStep = (vertices[0, 0] - vertices[3, 0]) / numberOfSegments;
-            var newLineYStep = (vertices[0, 1] - vertices[3, 1]) / numberOfSegments;
-            var newLineZStep = (vertices[0, 2] - vertices[3, 2]) / numberOfSegments;
-
-            var xStep = (vertices[2, 0] - vertices[0, 0]) / numberOfSegments;
-            var yStep = (vertices[2, 1] - vertices[0, 1]) / numberOfSegments;
-            var zStep = (vertices[2, 2] - vertices[0, 2]) / numberOfSegments;
-                 
-            CreateVerticesForFace(
-                  vertices[3, 0]
-                , vertices[3, 1]
-                , vertices[3, 2]
-                , newLineXStep
-                , newLineYStep
-                , newLineZStep
-                , xStep
-                , yStep
-                , zStep
-                , r
-                , subdivisions
-                , 0
-                , sphereVertices);
-
-            var faces = new List<Face>();
-
-            CreateFacesForFace(
-                0
-                , subdivisions
-                , sphereVertices
-                , faces);
+            CreateSpherePart(vertices, 3, 0, 2, subdivisions, 0, r, sphereVertices, faces);
+            CreateSpherePart(vertices, 3, 1, 0, subdivisions, numberOfVerticesInFace, r, sphereVertices, faces);
+            CreateSpherePart(vertices, 3, 2, 1, subdivisions, 2 * numberOfVerticesInFace, r, sphereVertices, faces);
+            CreateSpherePart(vertices, 2, 1, 0, subdivisions, 3 * numberOfVerticesInFace, r, sphereVertices, faces);
 
             for (int i = 0; i < sphereVertices.Height; ++i)
             {
@@ -421,6 +395,50 @@ namespace Roberts
                 }
                 ++index;
             }
+        }
+
+        private static void CreateSpherePart(
+             MyMatrix<double> tethraederVertices
+            ,int fristVertexIndex
+            ,int secondVertexIndex
+            ,int thirdVertexIndex
+            ,int subdivisions
+            ,int startIndex
+            ,double radius
+            ,MyMatrix<double> vertices
+            ,List<Face> faces)
+        {
+            var numberOfSegments = (int)Math.Pow(2, subdivisions);
+
+            var newLineXStep = (tethraederVertices[secondVertexIndex, 0] - tethraederVertices[fristVertexIndex, 0]) / numberOfSegments;
+            var newLineYStep = (tethraederVertices[secondVertexIndex, 1] - tethraederVertices[fristVertexIndex, 1]) / numberOfSegments;
+            var newLineZStep = (tethraederVertices[secondVertexIndex, 2] - tethraederVertices[fristVertexIndex, 2]) / numberOfSegments;
+
+            var xStep = (tethraederVertices[thirdVertexIndex, 0] - tethraederVertices[secondVertexIndex, 0]) / numberOfSegments;
+            var yStep = (tethraederVertices[thirdVertexIndex, 1] - tethraederVertices[secondVertexIndex, 1]) / numberOfSegments;
+            var zStep = (tethraederVertices[thirdVertexIndex, 2] - tethraederVertices[secondVertexIndex, 2]) / numberOfSegments;
+
+            CreateVerticesForFace(
+                  tethraederVertices[fristVertexIndex, 0]
+                , tethraederVertices[fristVertexIndex, 1]
+                , tethraederVertices[fristVertexIndex, 2]
+                , newLineXStep
+                , newLineYStep
+                , newLineZStep
+                , xStep
+                , yStep
+                , zStep
+                , radius
+                , subdivisions
+                , startIndex
+                , vertices);
+
+
+            CreateFacesForFace(
+                startIndex
+                , subdivisions
+                , vertices
+                , faces);
         }
     }
 }
