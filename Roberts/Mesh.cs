@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -108,6 +109,27 @@ namespace Roberts
         public MyMatrix<double> GetWorldCoordinates()
         {
             return m_vertices * m_translation * m_rotation * m_scale;
+        }
+
+        public void SaveToFile(string path)
+        {
+            using ( System.IO.StreamWriter writer = new StreamWriter(path) )
+            {
+                for (var i = 0 ; i < m_vertices.Height ; ++i)
+                {
+                    writer.WriteLine("v " + m_vertices[i, 0] + " " + m_vertices[i, 1] + " " + m_vertices[i, 2]);
+                }
+
+                foreach(var face in Faces)
+                {
+                    string indices = "";
+                    foreach (var index in face.Indices)
+                    {
+                        indices += index + " ";
+                    }
+                    writer.WriteLine("f " + indices);
+                }
+            }
         }
 
         private void CheckNullFacesOrVertices(Object faces, Object vertices)
