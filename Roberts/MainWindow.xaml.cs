@@ -27,7 +27,7 @@ namespace Roberts
     public partial class MainWindow : Window
     {
         private WriteableBitmap writeableBitmap;
-        private Mesh tethraeder;
+        private MyObject m_currentObject;
         private Drawer drawer;
         private bool m_cutFaces = false;
         private IDictionary<string, MyObject> m_objectsMap = new Dictionary<string, MyObject>();
@@ -60,6 +60,7 @@ namespace Roberts
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
             var defaultObject = new MyObject("default", new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Tetrahedron);
             AddObject(defaultObject);
+            objectsListBox.SelectedIndex = 0;
             //m_objectsMap.Add(defaultObject.Name, defaultObject);
             //tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
@@ -72,6 +73,7 @@ namespace Roberts
             };
             var projection = new MyMatrix<double>(perspective);
 
+            m_currentObject = GetCurrentObject();
             drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
             //drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
             Redraw();
@@ -107,7 +109,8 @@ namespace Roberts
 
         public MyObject GetCurrentObject()
         {
-            var name = objectsListBox.SelectedItem.ToString();
+            var lbi = objectsListBox.SelectedItem as ListBoxItem;
+            var name = lbi.Content.ToString();
             MyObject result;
             m_objectsMap.TryGetValue(name, out result);
             return result;
@@ -131,8 +134,7 @@ namespace Roberts
         private void TranslationSliderValueChanged()
         {
             var xyz = GetTranslationSliderValues();
-            var translation = TransformFactory.CreateTranslation(xyz[0], xyz[1], xyz[2]);
-            tethraeder.SetTranslation(translation);
+            m_currentObject.Position = new Vector3D(xyz[0], xyz[1], xyz[2]);
             Redraw();
         }
 
@@ -159,9 +161,10 @@ namespace Roberts
         private void RotationSliderValueChanged()
         {
             var xyz = GetRotationSliderValues();
-            tethraeder.SetRotation(TransformFactory.CreateOxRotation(xyz[0]));
-            tethraeder.AddRotation(TransformFactory.CreateOyRotation(xyz[1]));
-            tethraeder.AddRotation(TransformFactory.CreateOzRotation(xyz[2]));
+            m_currentObject.Rotation = new Vector3D(xyz[0], xyz[1], xyz[2]);
+            //m_currentObject.SetRotation(TransformFactory.CreateOxRotation(xyz[0]));
+            //m_currentObject.AddRotation(TransformFactory.CreateOyRotation(xyz[1]));
+            //m_currentObject.AddRotation(TransformFactory.CreateOzRotation(xyz[2]));
             Redraw();
         }
 
