@@ -25,14 +25,15 @@ namespace Roberts
         {
             var projectedVertices = Project(mesh.GetWorldCoordinates());
             var screenCoordinates = CalculateScreenCoordinates(projectedVertices);
-            for (var i = 0; i < mesh.Faces.Count; ++i)
+            var faces = mesh.GetVisibleFaces(0, 0, 15);
+            for (var i = 0; i < faces.Count; ++i)
             {
-                for (var j = 0; j < mesh.Faces[i].Indices.Count; ++j)
+                for (var j = 0; j < faces[i].Indices.Count; ++j)
                 {
-                    var x1 = screenCoordinates[mesh.Faces[i].Indices[j], 0];
-                    var y1 = screenCoordinates[mesh.Faces[i].Indices[j], 1];
-                    var x2 = screenCoordinates[mesh.Faces[i].Indices[(j + 1) % mesh.Faces[i].Indices.Count], 0];
-                    var y2 = screenCoordinates[mesh.Faces[i].Indices[(j + 1) % mesh.Faces[i].Indices.Count], 1];
+                    var x1 = screenCoordinates[faces[i].Indices[j], 0];
+                    var y1 = screenCoordinates[faces[i].Indices[j], 1];
+                    var x2 = screenCoordinates[faces[i].Indices[(j + 1) % faces[i].Indices.Count], 0];
+                    var y2 = screenCoordinates[faces[i].Indices[(j + 1) % faces[i].Indices.Count], 1];
                     DrawAlgorithm.DrawLine(bitmap, Colors.Blue, x1, y1, x2, y2);
                 }
             }
@@ -66,5 +67,7 @@ namespace Roberts
             }
             return result;
         }
+
+        
     }
 }

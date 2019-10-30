@@ -96,5 +96,7 @@ namespace Roberts
             }
             return result;
         }
+
+        public T[,] GetInternalStorage() { return m_matrix; }
     }
 }

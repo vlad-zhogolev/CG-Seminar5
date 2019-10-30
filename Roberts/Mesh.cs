@@ -111,6 +111,55 @@ namespace Roberts
             return m_vertices * m_translation * m_rotation * m_scale;
         }
 
+        public IList<Face> GetVisibleFaces(double x, double y, double z)
+        {
+            var vertices = m_vertices;
+
+            double barycenterX = 0;
+            double barycenterY = 0;
+            double barycenterZ = 0;
+            for (var i = 0 ; i < vertices.Height ; ++i)
+            {
+                barycenterX += vertices[i, 0];
+                barycenterY += vertices[i, 1];
+                barycenterZ += vertices[i, 2];
+            }
+            barycenterX /= vertices.Height;
+            barycenterY /= vertices.Height;
+            barycenterZ /= vertices.Height;
+
+            var planesCoefficients = new MyMatrix<double>(Faces.Count, 4);
+            IList<Face> result = new List<Face>();
+            for (var i = 0 ; i < Faces.Count ; ++i )
+            {
+                var x1 = vertices[Faces[i].Indices[1], 0] - vertices[Faces[i].Indices[0], 0];
+                var y1 = vertices[Faces[i].Indices[1], 1] - vertices[Faces[i].Indices[0], 1];
+                var z1 = vertices[Faces[i].Indices[1], 2] - vertices[Faces[i].Indices[0], 2];
+
+                var x2 = vertices[Faces[i].Indices[2], 0] - vertices[Faces[i].Indices[1], 0];
+                var y2 = vertices[Faces[i].Indices[2], 1] - vertices[Faces[i].Indices[1], 1];
+                var z2 = vertices[Faces[i].Indices[2], 2] - vertices[Faces[i].Indices[1], 2];
+
+                var a = y1 * z2 - y2 * z1;
+                var b = z1 * x2 - z2 * x1;
+                var c = x1 * y2 - x2 * y1;
+                var d = -(a * x1 + b * y1 + c * z1);
+
+                var sign = -Math.Sign(a * barycenterX + b * barycenterY + c * barycenterZ + d);
+                a *= sign;
+                b *= sign;
+                c *= sign;
+                d *= sign;            
+
+                if (a * x + b * y + c * z + d > 0)
+                {
+                    result.Add(Faces[i]);
+                }
+            }
+
+            return result;
+        }
+
         public void SaveToFile(string path)
         {
             using ( System.IO.StreamWriter writer = new StreamWriter(path) )
