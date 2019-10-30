@@ -144,14 +144,14 @@ namespace Roberts
                 var a = y1 * z2 - y2 * z1;
                 var b = z1 * x2 - z2 * x1;
                 var c = x1 * y2 - x2 * y1;
-                var d = -(a * x1 + b * y1 + c * z1);
+                var d = -(a * vertices[Faces[i].Indices[0], 0] + b * vertices[Faces[i].Indices[0], 1] + c * vertices[Faces[i].Indices[0], 2]);
 
                 planes[0, i] = a;
                 planes[1, i] = b;
                 planes[2, i] = c;
                 planes[3, i] = d;
 
-                var sign = Math.Sign(a * barycenterX + b * barycenterY + c * barycenterZ + d);
+                var sign = -Math.Sign(a * barycenterX + b * barycenterY + c * barycenterZ + d);
                 if ( sign == -1 )
                 {
                     planes[0, i] *= -1;
@@ -176,23 +176,23 @@ namespace Roberts
 
         public void SaveToFile(string path)
         {
-            using ( System.IO.StreamWriter writer = new StreamWriter(path) )
-            {
-                for (var i = 0 ; i < m_vertices.Height ; ++i)
-                {
-                    writer.WriteLine("v " + m_vertices[i, 0] + " " + m_vertices[i, 1] + " " + m_vertices[i, 2]);
-                }
-
-                foreach(var face in Faces)
-                {
-                    string indices = "";
-                    foreach (var index in face.Indices)
-                    {
-                        indices += index + " ";
-                    }
-                    writer.WriteLine("f " + indices);
-                }
-            }
+            //using ( System.IO.StreamWriter writer = new StreamWriter(path) )
+            //{
+            //    for (var i = 0 ; i < m_vertices.Height ; ++i)
+            //    {
+            //        writer.WriteLine("v " + m_vertices[i, 0] + " " + m_vertices[i, 1] + " " + m_vertices[i, 2]);
+            //    }
+            //
+            //    foreach(var face in Faces)
+            //    {
+            //        string indices = "";
+            //        foreach (var index in face.Indices)
+            //        {
+            //            indices += index + " ";
+            //        }
+            //        writer.WriteLine("f " + indices);
+            //    }
+            //}
         }
 
         private void CheckNullFacesOrVertices(Object faces, Object vertices)
