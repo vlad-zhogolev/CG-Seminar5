@@ -198,12 +198,6 @@ namespace Roberts
             }
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            m_cutFaces = !m_cutFaces;
-            Redraw();
-        }
-
         private void addObjectButton_Click(object sender, RoutedEventArgs e)
         {
             var name = objectNameTextBox.Text;
@@ -233,9 +227,22 @@ namespace Roberts
             yTranslationSlider.ValueChanged += yTranslationSlider_ValueChanged;
             zTranslationSlider.ValueChanged += zTranslationSlider_ValueChanged;
 
+            xRotationSlider.ValueChanged -= xRotationSlider_ValueChanged;
+            yRotationSlider.ValueChanged -= yRotationSlider_ValueChanged;
+            zRotationSlider.ValueChanged -= zRotationSlider_ValueChanged;
             xRotationSlider.Value = m_currentObject.Rotation.X;
             yRotationSlider.Value = m_currentObject.Rotation.Y;
             zRotationSlider.Value = m_currentObject.Rotation.Z;
+            xRotationSlider.ValueChanged += xRotationSlider_ValueChanged;
+            yRotationSlider.ValueChanged += yRotationSlider_ValueChanged;
+            zRotationSlider.ValueChanged += zRotationSlider_ValueChanged;
+        }
+
+        private void cutFacesButton_Click(object sender, RoutedEventArgs e)
+        {
+            cutFacesButton.Content = m_cutFaces ? "Hide invisible faces" : "Show invisible faces";
+            m_cutFaces = !m_cutFaces;
+            Redraw();
         }
     }
 };

@@ -8,8 +8,7 @@
         Title="MainWindow" Height="700" Width="1111.2" Name="mainWindow">
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="600" Margin="23,36,0,0" VerticalAlignment="Top" Width="600"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="679,641,0,0" Click="button_Click"/>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="391" Margin="657,36,0,0" VerticalAlignment="Top" Width="375">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="428" Margin="657,36,0,0" VerticalAlignment="Top" Width="375">
             <TabItem Header="Add object">
                 <Grid Background="White">
                     <Button x:Name="addObjectButton" Content="Add object" HorizontalAlignment="Left" Margin="28,94,0,0" VerticalAlignment="Top" Width="75" Click="addObjectButton_Click"/>
@@ -28,7 +27,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Transform">
-                <Grid Background="White" Margin="14,22,13.8,99.2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="230">
+                <Grid Background="White" Margin="14,22,13.8,99.2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="352">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
@@ -38,6 +37,7 @@
                     <Slider x:Name="xRotationSlider" HorizontalAlignment="Center" Margin="10,133,7,512.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="xRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="yRotationSlider" HorizontalAlignment="Center" Margin="10,163,7,482.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="yRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="zRotationSlider" HorizontalAlignment="Center" Margin="10,0,7,452.4" VerticalAlignment="Bottom" Height="22" Width="324" ValueChanged="zRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Button x:Name="cutFacesButton" Content="Hide invisible faces" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Margin="23,240,0,0" Click="cutFacesButton_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
