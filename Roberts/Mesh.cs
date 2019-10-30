@@ -113,6 +113,7 @@ namespace Roberts
 
         public IList<Face> GetVisibleFaces(double x, double y, double z)
         {
+            var inversedMatrix = Utilities.Inverse(m_translation * m_rotation * m_scale);
             var vertices = m_vertices;
 
             double barycenterX = 0;
@@ -129,6 +130,7 @@ namespace Roberts
             barycenterZ /= vertices.Height;
 
             IList<Face> result = new List<Face>();
+            var planes = new MyMatrix<double>(4, Faces.Count);
             for (var i = 0 ; i < Faces.Count ; ++i )
             {
                 var x1 = vertices[Faces[i].Indices[1], 0] - vertices[Faces[i].Indices[0], 0];
@@ -144,13 +146,26 @@ namespace Roberts
                 var c = x1 * y2 - x2 * y1;
                 var d = -(a * x1 + b * y1 + c * z1);
 
-                var sign = -Math.Sign(a * barycenterX + b * barycenterY + c * barycenterZ + d);
-                a *= sign;
-                b *= sign;
-                c *= sign;
-                d *= sign;            
+                planes[0, i] = a;
+                planes[1, i] = b;
+                planes[2, i] = c;
+                planes[3, i] = d;
 
-                if (a * x + b * y + c * z + d > 0)
+                var sign = Math.Sign(a * barycenterX + b * barycenterY + c * barycenterZ + d);
+                if ( sign == -1 )
+                {
+                    planes[0, i] *= -1;
+                    planes[1, i] *= -1;
+                    planes[2, i] *= -1;
+                    planes[3, i] *= -1;
+                }
+            }
+
+            planes = inversedMatrix * planes;
+
+            for (var i = 0 ; i < planes.Width ; ++i)
+            {
+                if (planes[0, i] * x + planes[1, i] * y + planes[2, i] * z + planes[3, i] > 0 )
                 {
                     result.Add(Faces[i]);
                 }
