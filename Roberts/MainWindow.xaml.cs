@@ -11,26 +11,33 @@ using Microsoft.Win32;
 namespace Roberts
 {
 
+    public enum Projection
+    {
+        Perspective,
+        Orthogonal
+    }
+
     class Default
     {
         public static readonly Vector3D SCALE = new Vector3D(0.25, 0.25, 0.25);
+        public static readonly double CAMERA_Z_VALUE = 15.0;
     }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private WriteableBitmap writeableBitmap;
+        private WriteableBitmap m_bitmap;
         private MyObject m_currentObject;
-        private Drawer drawer;
+        private Drawer m_drawer;
         private bool m_cutFaces = false;
         private IDictionary<string, MyObject> m_objectsMap = new Dictionary<string, MyObject>();
 
         public MainWindow()
         {
             InitializeComponent();
-            writeableBitmap = new WriteableBitmap((int)image.Width, (int)image.Height, 96, 96, PixelFormats.Bgr32, null);
-            image.Source = writeableBitmap;
+            m_bitmap = new WriteableBitmap((int)image.Width, (int)image.Height, 96, 96, PixelFormats.Bgr32, null);
+            image.Source = m_bitmap;
             image.Stretch = Stretch.None;
             image.HorizontalAlignment = HorizontalAlignment.Left;
             image.VerticalAlignment = VerticalAlignment.Top;
@@ -51,12 +58,9 @@ namespace Roberts
                 {2, 0, 1}
             };
 
-            //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
             var defaultObject = new MyObject("default", new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Tetrahedron);
             AddObject(defaultObject);
             objectsListBox.SelectedIndex = 0;
-            //m_objectsMap.Add(defaultObject.Name, defaultObject);
-            //tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
             var perspective = new double[,]
             {
@@ -68,14 +72,14 @@ namespace Roberts
             var projection = new MyMatrix<double>(perspective);
 
             m_currentObject = GetCurrentObject();
-            drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
-            //drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+            m_drawer = new Drawer(projection, (int)m_bitmap.Width, (int)m_bitmap.Height);
+            projectionComboBox.SelectedIndex = 0;
             Redraw();
         }
 
         private void ClearImage()
         {
-            DrawAlgorithm.ResetColor(Colors.Black, writeableBitmap);
+            DrawAlgorithm.ResetColor(Colors.Black, m_bitmap);
         }
 
         private void Redraw()
@@ -83,7 +87,7 @@ namespace Roberts
             ClearImage();
             foreach (var pair in m_objectsMap)
             {
-                drawer.Draw(writeableBitmap, pair.Value, m_cutFaces);
+                m_drawer.Draw(m_bitmap, pair.Value, m_cutFaces);
             }
         }
 
@@ -184,12 +188,70 @@ namespace Roberts
                 return Shape.Icosahedron;
                 case "Sphere":
                 return Shape.Sphere;
-                case "Sphere without pole":
+                case "Sphere without poles":
                 return Shape.SphereWithoutPole;
 
                 default:
                 throw new ArgumentException("No such shape type: " + shape);
             }
+        }
+
+        private Projection GetCurrentProjection()
+        {
+            var type = (projectionComboBox.SelectedItem as ComboBoxItem).Content.ToString();
+            switch ( type )
+            {
+                case "Perspective":
+                return Projection.Perspective;
+                case "Orthogonal":
+                return Projection.Orthogonal;
+                default:
+                throw new ArgumentException("No such projection type: " + type);
+            }
+        }
+
+        private void projectionComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var type = GetCurrentProjection();
+            switch ( type )
+            {
+                case Projection.Perspective:
+                {
+                    m_drawer.Projection = GetPerspectiveProjection(Default.CAMERA_Z_VALUE);
+                }
+                break;
+                case Projection.Orthogonal:
+                {
+                    m_drawer.Projection = GetOrthogonalProjection();
+                }
+                break;
+                default:
+                throw new ArgumentException("Can't handle that projection type");
+            }
+            Redraw();
+        }
+
+        private MyMatrix<double> GetPerspectiveProjection(double z)
+        {
+            var r = -1.0 / z;
+            return new MyMatrix<double>( new double[,]
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 0, r },
+                { 0, 0, 0, 1 }
+            });
+        }
+
+        private MyMatrix<double> GetOrthogonalProjection()
+        {
+            return new MyMatrix<double>(new double[,]
+            {
+                { 1, 0, 0, 0 },
+                { 0, 1, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 1 }
+            });
         }
 
         private void addObjectButton_Click(object sender, RoutedEventArgs e)
@@ -198,7 +260,6 @@ namespace Roberts
             if ( !m_objectsMap.ContainsKey(name) )
             {
                 AddObject();
-                //m_objectsMap.Add(name, new MyObject(name, new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Sphere));
             }
             Redraw();
         }

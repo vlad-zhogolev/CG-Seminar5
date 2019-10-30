@@ -43,7 +43,11 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <ListBox x:Name="objectsListBox" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="189" Margin="657,483,0,0" SelectionChanged="objectsListBox_SelectionChanged"/>
+        <ListBox x:Name="objectsListBox" HorizontalAlignment="Left" Height="153" VerticalAlignment="Top" Width="189" Margin="657,483,0,0" SelectionChanged="objectsListBox_SelectionChanged"/>
+        <ComboBox x:Name="projectionComboBox" HorizontalAlignment="Left" Margin="884,483,0,0" VerticalAlignment="Top" Width="148" SelectionChanged="projectionComboBox_SelectionChanged">
+            <ComboBoxItem>Perspective</ComboBoxItem>
+            <ComboBoxItem>Orthogonal</ComboBoxItem>
+        </ComboBox>
 
 
     </Grid>

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
@@ -14,6 +11,19 @@ namespace Roberts
         private int m_screenWidth;
         private int m_screenHeight;
         
+        public MyMatrix<double> Projection
+        {
+            get { return m_projection; }
+            set
+            {
+                if ( m_projection.Height != m_projection.Width && m_projection.Height != 4 )
+                {
+                    throw new ArgumentException("Wrong projection matrix size");
+                }
+                m_projection = value;
+            }
+        }
+
         public Drawer(MyMatrix<double> projection, int width, int height)
         {
             m_projection = projection;
