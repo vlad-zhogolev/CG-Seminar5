@@ -1,18 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace Roberts
 {
@@ -243,6 +237,36 @@ namespace Roberts
             cutFacesButton.Content = m_cutFaces ? "Hide invisible faces" : "Show invisible faces";
             m_cutFaces = !m_cutFaces;
             Redraw();
+        }
+
+        private void resetButton_Click(object sender, RoutedEventArgs e)
+        {
+            m_currentObject.Position = new Vector3D(0, 0, 0);
+            m_currentObject.Rotation = new Vector3D(0, 0, 0);
+            m_currentObject.Scale = Default.SCALE;
+            RestoreControlsForCurrentObject();
+            Redraw();
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var saveFileDialog = new SaveFileDialog();
+
+                saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.FilterIndex = 2;
+                saveFileDialog.RestoreDirectory = true;
+
+                if ( saveFileDialog.ShowDialog() == true )
+                {
+                    m_currentObject.Mesh.SaveToFile(saveFileDialog.FileName);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Failed to save file.");
+            }
         }
     }
 };
