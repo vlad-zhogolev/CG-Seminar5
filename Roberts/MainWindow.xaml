@@ -9,7 +9,7 @@
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="600" Margin="23,36,0,0" VerticalAlignment="Top" Width="600"/>
         <Slider x:Name="slider" HorizontalAlignment="Left" Margin="642,59,0,0" VerticalAlignment="Top" Height="22" Width="84" ValueChanged="slider_ValueChanged" Minimum="-1" Maximum="1"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="671,120,0,0" Click="button_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="669,519,0,0" Click="button_Click"/>
 
 
     </Grid>

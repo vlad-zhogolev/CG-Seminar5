@@ -113,7 +113,7 @@ namespace Roberts
 
         public IList<Face> GetVisibleFaces(double x, double y, double z)
         {
-            var inversedMatrix = Utilities.Inverse(m_rotation);
+            //var inversedMatrix = Utilities.Inverse(m_rotation);
             //var inversedMatrix = m_rotation;
             //var vertices = m_vertices;
             var vertices = GetWorldCoordinates();
