@@ -50,7 +50,7 @@ namespace Roberts
             };
 
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-            tethraeder = ShapeFactory.CreateShape(Shape.Sphere, 0.5, 3);
+            tethraeder = ShapeFactory.CreateShape(Shape.Icosahedron, 0.5);
             tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
             var perspective = new double[,]

@@ -19,7 +19,7 @@ namespace Roberts
 
     class ShapeFactory
     {
-        public static Mesh CreateShape(Shape shape, double radius, int subdivisions = 2)
+        public static Mesh CreateShape(Shape shape, double radius, int subdivisions = 3)
         {
             switch (shape)
             {
@@ -49,9 +49,9 @@ namespace Roberts
             var c = (a / 2) / Math.Cos(Utilities.ToRadians(30));
             for (var i = 0; i < 3; ++i)
             {
-                vertices[i, 0] = c * (Math.Cos(Utilities.ToRadians(150 + i * 120)));
+                vertices[i, 0] = c * (Math.Cos(Utilities.ToRadians(150 - i * 120)));
                 vertices[i, 1] = -Math.Sqrt(r * r - c * c);
-                vertices[i, 2] = c * (Math.Sin(Utilities.ToRadians(-30 + i * 120)));
+                vertices[i, 2] = c * (Math.Sin(Utilities.ToRadians(-30 - i * 120)));
             }
             vertices[3, 0] = 0;
             vertices[3, 1] = r;

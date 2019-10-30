@@ -128,7 +128,6 @@ namespace Roberts
             barycenterY /= vertices.Height;
             barycenterZ /= vertices.Height;
 
-            var planesCoefficients = new MyMatrix<double>(Faces.Count, 4);
             IList<Face> result = new List<Face>();
             for (var i = 0 ; i < Faces.Count ; ++i )
             {

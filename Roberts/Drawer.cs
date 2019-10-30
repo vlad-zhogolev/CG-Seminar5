@@ -25,7 +25,8 @@ namespace Roberts
         {
             var projectedVertices = Project(mesh.GetWorldCoordinates());
             var screenCoordinates = CalculateScreenCoordinates(projectedVertices);
-            var faces = mesh.GetVisibleFaces(0, 0, 15);
+            //var faces = mesh.GetVisibleFaces(0, 0, 15);
+            var faces = mesh.Faces;
             for (var i = 0; i < faces.Count; ++i)
             {
                 for (var j = 0; j < faces[i].Indices.Count; ++j)
