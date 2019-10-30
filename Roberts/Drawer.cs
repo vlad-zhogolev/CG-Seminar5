@@ -21,12 +21,19 @@ namespace Roberts
             m_screenHeight = height;
         }
 
-        public void Draw(WriteableBitmap bitmap, Mesh mesh)
+        public void Draw(WriteableBitmap bitmap, Mesh mesh, bool cutFaces)
         {
             var projectedVertices = Project(mesh.GetWorldCoordinates());
             var screenCoordinates = CalculateScreenCoordinates(projectedVertices);
-            var faces = mesh.GetVisibleFaces(0, 0, 15);
-            //var faces = mesh.Faces;
+            IList<Face> faces = null;
+            if ( cutFaces )
+            {
+                faces = mesh.GetVisibleFaces(0, 0, 15);
+            }
+            else
+            {
+                faces = mesh.Faces;
+            }
             for (var i = 0; i < faces.Count; ++i)
             {
                 for (var j = 0; j < faces[i].Indices.Count; ++j)

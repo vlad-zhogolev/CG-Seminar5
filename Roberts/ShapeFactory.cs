@@ -249,8 +249,8 @@ namespace Roberts
 
         private static Mesh CreateSphere(double r)
         {
-            var horizontalSegments = 15;
-            var verticalSegments = 15;
+            var horizontalSegments = 14;
+            var verticalSegments = 14;
             var vertices = new MyMatrix<double>(horizontalSegments * (verticalSegments + 1), 4);
 
             for (var i = 0; i <= verticalSegments; ++i)

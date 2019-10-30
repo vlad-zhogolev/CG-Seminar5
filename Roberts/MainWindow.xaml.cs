@@ -23,6 +23,7 @@ namespace Roberts
         private WriteableBitmap writeableBitmap;
         private Mesh tethraeder;
         private Drawer drawer;
+        private bool m_cutFaces = false;
 
         public MainWindow()
         {
@@ -50,7 +51,7 @@ namespace Roberts
             };
 
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-            tethraeder = ShapeFactory.CreateShape(Shape.Sphere, 0.5);
+            tethraeder = ShapeFactory.CreateShape(Shape.SphereWithoutPole, 0.5);
             tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
             var perspective = new double[,]
@@ -63,7 +64,7 @@ namespace Roberts
             var projection = new MyMatrix<double>(perspective);
 
             drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
-            drawer.Draw(writeableBitmap, tethraeder);
+            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
         }
 
         private void ClearImage()
@@ -78,7 +79,14 @@ namespace Roberts
             var rotation = TransformFactory.CreateOxRotation(slider.Value * 90);
             tethraeder.SetRotation(rotation);
             ClearImage();
-            drawer.Draw(writeableBitmap, tethraeder);
+            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            m_cutFaces = !m_cutFaces;
+            ClearImage();
+            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
         }
     }
 }
