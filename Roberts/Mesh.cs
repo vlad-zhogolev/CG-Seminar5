@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Roberts
 {
-    class Face
+    public class Face
     {
         public Face(IList<int> indices)
         {
@@ -34,7 +34,7 @@ namespace Roberts
         private IList<int> m_indices = null;
     }
 
-    class FaceBuilder
+    public class FaceBuilder
     {
         private IList<int> m_indices = new List<int>(0);
         
@@ -59,7 +59,7 @@ namespace Roberts
         }
     }
 
-    class Mesh
+    public class Mesh
     {
         private IList<Face> m_faces = new List<Face>(0);
         private MyMatrix<double> m_vertices = null;

@@ -10,11 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Roberts
 {
+
+    class Default
+    {
+        public static readonly Vector3D SCALE = new Vector3D(0.25, 0.25, 0.25);
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -24,7 +30,7 @@ namespace Roberts
         private Mesh tethraeder;
         private Drawer drawer;
         private bool m_cutFaces = false;
-        private IDictionary<string, MyObject> m_objects = new Dictionary<string, MyObject>();
+        private IDictionary<string, MyObject> m_objectsMap = new Dictionary<string, MyObject>();
 
         public MainWindow()
         {
@@ -52,8 +58,10 @@ namespace Roberts
             };
 
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-            tethraeder = ShapeFactory.CreateShape(Shape.Sphere, 0.15);
-            tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
+            var defaultObject = new MyObject("default", new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Tetrahedron);
+            AddObject(defaultObject);
+            //m_objectsMap.Add(defaultObject.Name, defaultObject);
+            //tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
             var perspective = new double[,]
             {
@@ -65,7 +73,8 @@ namespace Roberts
             var projection = new MyMatrix<double>(perspective);
 
             drawer = new Drawer(projection, (int)writeableBitmap.Width, (int)writeableBitmap.Height);
-            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+            //drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+            Redraw();
         }
 
         private void ClearImage()
@@ -76,7 +85,32 @@ namespace Roberts
         private void Redraw()
         {
             ClearImage();
-            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+            foreach (var pair in m_objectsMap)
+            {
+                drawer.Draw(writeableBitmap, pair.Value, m_cutFaces);
+            }
+        }
+
+        private void AddObject()
+        {
+            var name = objectNameTextBox.Text;
+            AddObject(new MyObject(name, new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Sphere));
+        }
+
+        private void AddObject(MyObject obj)
+        {
+            m_objectsMap.Add(obj.Name, obj);
+            var item = new ListBoxItem();
+            item.Content = obj.Name;
+            objectsListBox.Items.Add(item);
+        }
+
+        public MyObject GetCurrentObject()
+        {
+            var name = objectsListBox.SelectedItem.ToString();
+            MyObject result;
+            m_objectsMap.TryGetValue(name, out result);
+            return result;
         }
 
         private void xTranslationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -139,6 +173,17 @@ namespace Roberts
         private void button_Click(object sender, RoutedEventArgs e)
         {
             m_cutFaces = !m_cutFaces;
+            Redraw();
+        }
+
+        private void addObjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            var name = objectNameTextBox.Text;
+            if ( !m_objectsMap.ContainsKey(name) )
+            {
+                AddObject();
+                //m_objectsMap.Add(name, new MyObject(name, new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Sphere));
+            }
             Redraw();
         }
     }

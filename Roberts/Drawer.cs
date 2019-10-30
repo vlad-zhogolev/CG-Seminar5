@@ -21,6 +21,11 @@ namespace Roberts
             m_screenHeight = height;
         }
 
+        public void Draw(WriteableBitmap bitmap, MyObject obj, bool cutFaces)
+        {
+            Draw(bitmap, obj.Mesh, cutFaces);
+        }
+
         public void Draw(WriteableBitmap bitmap, Mesh mesh, bool cutFaces)
         {
             var projectedVertices = Project(mesh.GetWorldCoordinates());

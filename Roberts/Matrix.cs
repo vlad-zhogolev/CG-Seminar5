@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roberts
 {
-    class MyMatrix<T> where T : struct
+    public class MyMatrix<T> where T : struct
     {
         private T[,] m_matrix = null;
 

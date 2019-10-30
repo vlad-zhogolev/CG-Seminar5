@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roberts
 {
-    enum Shape
+    public enum Shape
     {
         Tetrahedron,
         Hexahedron,
