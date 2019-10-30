@@ -5,11 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Roberts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="800" Name="mainWindow">
+        Title="MainWindow" Height="700" Width="1111.2" Name="mainWindow">
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="600" Margin="23,36,0,0" VerticalAlignment="Top" Width="600"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Margin="642,59,0,0" VerticalAlignment="Top" Height="22" Width="84" ValueChanged="slider_ValueChanged" Minimum="-1" Maximum="1"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="669,519,0,0" Click="button_Click"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="679,641,0,0" Click="button_Click"/>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="391" Margin="657,36,0,0" VerticalAlignment="Top" Width="375">
+            <TabItem Header="TabItem">
+                <Grid Background="White"/>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="White" Margin="14,22,13.8,99.2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="230">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Slider x:Name="xTranslationSlider" HorizontalAlignment="Center" Margin="10,24,7,621.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="xTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="yTranslationSlider" HorizontalAlignment="Center" Margin="10,54,7,591.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="yTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="zTranslationSlider" HorizontalAlignment="Center" Margin="10,84,7,561.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="zTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="xRotationSlider" HorizontalAlignment="Center" Margin="10,133,7,512.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="xRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="yRotationSlider" HorizontalAlignment="Center" Margin="10,163,7,482.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="yRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="zRotationSlider" HorizontalAlignment="Center" Margin="10,0,7,452.4" VerticalAlignment="Bottom" Height="22" Width="324" ValueChanged="zRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
 
     </Grid>

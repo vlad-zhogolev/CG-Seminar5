@@ -24,6 +24,7 @@ namespace Roberts
         private Mesh tethraeder;
         private Drawer drawer;
         private bool m_cutFaces = false;
+        private IDictionary<string, MyObject> m_objects = new Dictionary<string, MyObject>();
 
         public MainWindow()
         {
@@ -51,7 +52,7 @@ namespace Roberts
             };
 
             //tethraeder = new Mesh(new MyMatrix<int>(faces), new MyMatrix<double>(vertices));
-            tethraeder = ShapeFactory.CreateShape(Shape.Hexahedron, 0.5);
+            tethraeder = ShapeFactory.CreateShape(Shape.Sphere, 0.15);
             tethraeder.SaveToFile(@"C:\Programs\mesh.txt");
             var r = -1.0 / 15.0;
             var perspective = new double[,]
@@ -72,21 +73,73 @@ namespace Roberts
             DrawAlgorithm.ResetColor(Colors.Black, writeableBitmap);
         }
 
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void Redraw()
         {
-            //var translation = TransformFactory.CreateTranslation(0, slider.Value, 0);
-            //tethraeder.SetTranslation(translation);
-            var rotation = TransformFactory.CreateOxRotation(slider.Value * 90);
-            tethraeder.SetRotation(rotation);
             ClearImage();
             drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+        }
+
+        private void xTranslationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TranslationSliderValueChanged();
+        }
+
+        private void yTranslationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TranslationSliderValueChanged();
+        }
+
+        private void zTranslationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TranslationSliderValueChanged();
+        }
+
+        private void TranslationSliderValueChanged()
+        {
+            var xyz = GetTranslationSliderValues();
+            var translation = TransformFactory.CreateTranslation(xyz[0], xyz[1], xyz[2]);
+            tethraeder.SetTranslation(translation);
+            Redraw();
+        }
+
+        private double[] GetTranslationSliderValues()
+        {
+            return new double[] { xTranslationSlider.Value, yTranslationSlider.Value, zTranslationSlider.Value };
+        }
+
+        private void xRotationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            RotationSliderValueChanged();
+        }
+
+        private void yRotationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            RotationSliderValueChanged();
+        }
+
+        private void zRotationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            RotationSliderValueChanged();
+        }
+
+        private void RotationSliderValueChanged()
+        {
+            var xyz = GetRotationSliderValues();
+            tethraeder.SetRotation(TransformFactory.CreateOxRotation(xyz[0]));
+            tethraeder.AddRotation(TransformFactory.CreateOyRotation(xyz[1]));
+            tethraeder.AddRotation(TransformFactory.CreateOzRotation(xyz[2]));
+            Redraw();
+        }
+
+        private double[] GetRotationSliderValues()
+        {
+            return new double[] { xRotationSlider.Value, yRotationSlider.Value, zRotationSlider.Value };
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             m_cutFaces = !m_cutFaces;
-            ClearImage();
-            drawer.Draw(writeableBitmap, tethraeder, m_cutFaces);
+            Redraw();
         }
     }
 }

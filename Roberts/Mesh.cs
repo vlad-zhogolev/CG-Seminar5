@@ -104,7 +104,21 @@ namespace Roberts
 
         public void SetTranslation(MyMatrix<double> translation) { m_translation = translation; }
 
+        public void AddTranslation(MyMatrix<double> translation) { m_translation = m_translation * translation; }
+        
+        public void ResetTranslation() { m_translation = MyMatrix<double>.Incident(4); }
+
         public void SetRotation(MyMatrix<double> rotation) { m_rotation = rotation; }
+
+        public void AddRotation(MyMatrix<double> rotation) { m_rotation = m_rotation * rotation; }
+
+        public void ResetRotation() { m_rotation = MyMatrix<double>.Incident(4); }
+
+        public void SetScale(MyMatrix<double> scale) { m_scale = scale; }
+
+        public void AddScale(MyMatrix<double> scale) { m_scale = m_scale * scale; }
+
+        public void ResetScale() { m_scale = MyMatrix<double>.Incident(4); }
 
         public MyMatrix<double> GetWorldCoordinates()
         {
