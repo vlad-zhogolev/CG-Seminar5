@@ -96,7 +96,7 @@ namespace Roberts
         private void AddObject()
         {
             var name = objectNameTextBox.Text;
-            AddObject(new MyObject(name, new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, Shape.Sphere));
+            AddObject(new MyObject(name, new Vector3D(0, 0, 0), new Vector3D(0, 0, 0), Default.SCALE, GetSelectedShape()));
         }
 
         private void AddObject(MyObject obj)
@@ -173,6 +173,31 @@ namespace Roberts
             return new double[] { xRotationSlider.Value, yRotationSlider.Value, zRotationSlider.Value };
         }
 
+        private Shape GetSelectedShape()
+        {
+            var shape = (shapeComboBox.SelectedItem as ComboBoxItem).Content.ToString();
+            switch(shape)
+            {
+                case "Tetrahedron":
+                return Shape.Tetrahedron;
+                case "Hexahedron":
+                return Shape.Hexahedron;
+                case "Octahedron":
+                return Shape.Octahedron;
+                case "Dodecahedron":
+                return Shape.Dodecahedron;
+                case "Icosahedron":
+                return Shape.Icosahedron;
+                case "Sphere":
+                return Shape.Sphere;
+                case "Sphere without pole":
+                return Shape.SphereWithoutPole;
+
+                default:
+                throw new ArgumentException("No such shape type: " + shape);
+            }
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
             m_cutFaces = !m_cutFaces;
@@ -189,5 +214,28 @@ namespace Roberts
             }
             Redraw();
         }
+
+        private void objectsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            m_currentObject = GetCurrentObject();
+            RestoreControlsForCurrentObject();
+        }
+
+        private void RestoreControlsForCurrentObject()
+        {
+            xTranslationSlider.ValueChanged -= xTranslationSlider_ValueChanged;
+            yTranslationSlider.ValueChanged -= yTranslationSlider_ValueChanged;
+            zTranslationSlider.ValueChanged -= zTranslationSlider_ValueChanged;
+            xTranslationSlider.Value = m_currentObject.Position.X;
+            yTranslationSlider.Value = m_currentObject.Position.Y;
+            zTranslationSlider.Value = m_currentObject.Position.Z;
+            xTranslationSlider.ValueChanged += xTranslationSlider_ValueChanged;
+            yTranslationSlider.ValueChanged += yTranslationSlider_ValueChanged;
+            zTranslationSlider.ValueChanged += zTranslationSlider_ValueChanged;
+
+            xRotationSlider.Value = m_currentObject.Rotation.X;
+            yRotationSlider.Value = m_currentObject.Rotation.Y;
+            zRotationSlider.Value = m_currentObject.Rotation.Z;
+        }
     }
-}
+};

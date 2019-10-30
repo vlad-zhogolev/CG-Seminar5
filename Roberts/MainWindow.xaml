@@ -10,13 +10,13 @@
         <Image x:Name="image" HorizontalAlignment="Left" Height="600" Margin="23,36,0,0" VerticalAlignment="Top" Width="600"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="679,641,0,0" Click="button_Click"/>
         <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="391" Margin="657,36,0,0" VerticalAlignment="Top" Width="375">
-            <TabItem Header="TabItem">
+            <TabItem Header="Add object">
                 <Grid Background="White">
-                    <Button x:Name="addObjectButton" Content="Add object" HorizontalAlignment="Left" Margin="28,166,0,0" VerticalAlignment="Top" Width="75" Click="addObjectButton_Click"/>
+                    <Button x:Name="addObjectButton" Content="Add object" HorizontalAlignment="Left" Margin="28,94,0,0" VerticalAlignment="Top" Width="75" Click="addObjectButton_Click"/>
                     <TextBox x:Name="objectNameTextBox" HorizontalAlignment="Left" Height="23" Margin="78,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" SpellCheck.IsEnabled="True"/>
-                    <Label x:Name="label" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="2.234,5.391" Margin="28,21,0,0"/>
-                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Height="20" Margin="78,55,0,0" VerticalAlignment="Top" Width="120">
-                        <ComboBoxItem>Tetrahedron</ComboBoxItem>
+                    <Label x:Name="nameLabel" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="2.234,5.391" Margin="28,21,0,0"/>
+                    <ComboBox x:Name="shapeComboBox" HorizontalAlignment="Left" Height="20" Margin="78,55,0,0" VerticalAlignment="Top" Width="120">
+                        <ComboBoxItem IsSelected="True">Tetrahedron</ComboBoxItem>
                         <ComboBoxItem>Hexahedron</ComboBoxItem>
                         <ComboBoxItem>Octahedron</ComboBoxItem>
                         <ComboBoxItem>Dodecahedron</ComboBoxItem>
@@ -24,24 +24,24 @@
                         <ComboBoxItem>Sphere</ComboBoxItem>
                         <ComboBoxItem>Sphere without poles</ComboBoxItem>
                     </ComboBox>
-                    <Label x:Name="label1" Content="Shape" HorizontalAlignment="Left" Margin="28,52,0,0" VerticalAlignment="Top"/>
+                    <Label x:Name="shapeLabel" Content="Shape" HorizontalAlignment="Left" Margin="28,52,0,0" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem Header="Transform">
                 <Grid Background="White" Margin="14,22,13.8,99.2" HorizontalAlignment="Center" VerticalAlignment="Top" Height="230">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Slider x:Name="xTranslationSlider" HorizontalAlignment="Center" Margin="10,24,7,621.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="xTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="yTranslationSlider" HorizontalAlignment="Center" Margin="10,54,7,591.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="yTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="zTranslationSlider" HorizontalAlignment="Center" Margin="10,84,7,561.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="zTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="xTranslationSlider" HorizontalAlignment="Center" Margin="10,24,7,621.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="xTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="yTranslationSlider" HorizontalAlignment="Center" Margin="10,54,7,591.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="yTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="zTranslationSlider" HorizontalAlignment="Center" Margin="10,84,7,561.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="zTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="xRotationSlider" HorizontalAlignment="Center" Margin="10,133,7,512.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="xRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="yRotationSlider" HorizontalAlignment="Center" Margin="10,163,7,482.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="yRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
                     <Slider x:Name="zRotationSlider" HorizontalAlignment="Center" Margin="10,0,7,452.4" VerticalAlignment="Bottom" Height="22" Width="324" ValueChanged="zRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <ListBox x:Name="objectsListBox" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="189" Margin="657,445,0,0"/>
+        <ListBox x:Name="objectsListBox" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="189" Margin="657,445,0,0" SelectionChanged="objectsListBox_SelectionChanged"/>
 
 
     </Grid>
