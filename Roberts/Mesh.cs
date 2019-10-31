@@ -122,7 +122,7 @@ namespace Roberts
 
         public MyMatrix<double> GetWorldCoordinates()
         {
-            return m_vertices * m_translation * m_rotation * m_scale;
+            return m_vertices * m_scale * m_translation * m_rotation;
         }
 
         public IList<Face> GetVisibleFaces(double x, double y, double z)
