@@ -291,6 +291,17 @@ namespace Roberts
             xRotationSlider.ValueChanged += xRotationSlider_ValueChanged;
             yRotationSlider.ValueChanged += yRotationSlider_ValueChanged;
             zRotationSlider.ValueChanged += zRotationSlider_ValueChanged;
+
+            xScaleSlider.ValueChanged -= xScaleSlider_ValueChanged;
+            yScaleSlider.ValueChanged -= yScaleSlider_ValueChanged;
+            zScaleSlider.ValueChanged -= zScaleSlider_ValueChanged;
+            xScaleSlider.Value = m_currentObject.Scale.X;
+            yScaleSlider.Value = m_currentObject.Scale.Y;
+            zScaleSlider.Value = m_currentObject.Scale.Z;
+            xScaleSlider.ValueChanged += xScaleSlider_ValueChanged;
+            yScaleSlider.ValueChanged += yScaleSlider_ValueChanged;
+            zScaleSlider.ValueChanged += zScaleSlider_ValueChanged;
+
         }
 
         private void cutFacesButton_Click(object sender, RoutedEventArgs e)
