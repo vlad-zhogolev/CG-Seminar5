@@ -48,6 +48,7 @@
             <ComboBoxItem>Perspective</ComboBoxItem>
             <ComboBoxItem>Orthogonal</ComboBoxItem>
         </ComboBox>
+        <Button x:Name="aboutProgramButton" Content="About program" HorizontalAlignment="Left" Margin="884,535,0,0" VerticalAlignment="Top" Width="106" Click="aboutProgramButton_Click"/>
 
 
     </Grid>

@@ -181,7 +181,7 @@ namespace Roberts
 
             for (var i = 0 ; i < planes.Width ; ++i)
             {
-                if (planes[0, i] * x + planes[1, i] * y + planes[2, i] * z + planes[3, i] > 0 )
+                if (planes[0, i] * (x - barycenterX) + planes[1, i] * (y - barycenterY) + planes[2, i] * (z - barycenterZ) + planes[3, i] > 0 )
                 {
                     result.Add(Faces[i]);
                 }

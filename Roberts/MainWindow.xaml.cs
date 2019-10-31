@@ -329,5 +329,10 @@ namespace Roberts
                 MessageBox.Show("Failed to save file.");
             }
         }
+
+        private void aboutProgramButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Семинар 5: Алгоритм Робертса\n Автор: Жоголев Владислав\n Группа: БПИ 164\n Среда разработки: Visual Studio 2015\n Язык разработки:C#\n Дата выполнения:30.10.2019");
+        }
     }
 };
