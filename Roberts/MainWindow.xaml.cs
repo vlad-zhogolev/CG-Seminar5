@@ -334,5 +334,48 @@ namespace Roberts
         {
             MessageBox.Show("Семинар 5: Алгоритм Робертса\n Автор: Жоголев Владислав\n Группа: БПИ 164\n Среда разработки: Visual Studio 2015\n Язык разработки:C#\n Дата выполнения:30.10.2019");
         }
+
+        private double[] GetScaleSliderValues()
+        {
+            return new double[] { xScaleSlider.Value, yScaleSlider.Value, zScaleSlider.Value };
+        }
+
+        private void ScaleSliderValueChanged()
+        {
+            var xyz = GetScaleSliderValues();
+            if (m_currentObject == null)
+            {
+                return;
+            }
+            m_currentObject.Scale = new Vector3D(xyz[0], xyz[1], xyz[2]);
+            Redraw();
+        }
+
+        private void xScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (xScaleSlider == null || yScaleSlider == null || zScaleSlider == null)
+            {
+                return;
+            }
+            ScaleSliderValueChanged();
+        }
+
+        private void yScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if ( xScaleSlider == null || yScaleSlider == null || zScaleSlider == null )
+            {
+                return;
+            }
+            ScaleSliderValueChanged();
+        }
+
+        private void zScaleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if ( xScaleSlider == null || yScaleSlider == null || zScaleSlider == null )
+            {
+                return;
+            }
+            ScaleSliderValueChanged();
+        }
     }
 };
