@@ -53,6 +53,7 @@
         </ComboBox>
         <Button x:Name="aboutProgramButton" Content="About program" HorizontalAlignment="Left" Margin="1068,269,0,0" VerticalAlignment="Top" Width="106" Click="aboutProgramButton_Click"/>
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="fileStructureButton" Content="File structure" HorizontalAlignment="Left" Margin="1068,307,0,0" VerticalAlignment="Top" Width="106" Click="fileStructureButton_Click"/>
 
 
     </Grid>

@@ -388,5 +388,15 @@ namespace Roberts
             }
             ScaleSliderValueChanged();
         }
+
+        private void fileStructureButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                "Структура файла\n" +
+                "Файл модели содержит определение вершин в виде: v x y z. И граней в виде: f a b c\n" +
+                "где x, y, z - соответствующие координаты вершин по осям Ox, Oy, Oz\n" +
+                "и a, b, c - номера вершин, составляющих грань\n" +
+                "Сперва файл содержит список вершин, затем список граней");
+        }
     }
 };
