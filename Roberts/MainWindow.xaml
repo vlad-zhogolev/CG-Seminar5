@@ -31,18 +31,30 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Slider x:Name="xTranslationSlider" HorizontalAlignment="Center" Margin="10,24,7,621.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="xTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="yTranslationSlider" HorizontalAlignment="Center" Margin="10,54,7,591.4" VerticalAlignment="Center" Height="25" Width="324" ValueChanged="yTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="zTranslationSlider" HorizontalAlignment="Center" Margin="10,84,7,561.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="zTranslationSlider_ValueChanged" Minimum="-3" Maximum="3" MinWidth="300" MinHeight="25" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="xRotationSlider" HorizontalAlignment="Center" Margin="10,133,7,512.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="xRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="yRotationSlider" HorizontalAlignment="Center" Margin="10,163,7,482.4" VerticalAlignment="Center" Height="22" Width="324" ValueChanged="yRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
-                    <Slider x:Name="zRotationSlider" HorizontalAlignment="Center" Margin="10,0,7,452.4" VerticalAlignment="Bottom" Height="22" Width="324" ValueChanged="zRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
-                    <Button x:Name="cutFacesButton" Content="Hide invisible faces" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Margin="13,445,0,0" Click="cutFacesButton_Click" RenderTransformOrigin="0.555,2.136"/>
-                    <Button x:Name="resetButton" Content="Reset" HorizontalAlignment="Left" Margin="140,445,0,0" VerticalAlignment="Top" Width="75" Click="resetButton_Click"/>
-                    <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="240,445,0,0" VerticalAlignment="Top" Width="75" Click="saveButton_Click"/>
-                    <Slider x:Name="xScaleSlider" HorizontalAlignment="Center" Margin="8,0,5,401" VerticalAlignment="Bottom" Height="22" Width="324" ValueChanged="xScaleSlider_ValueChanged" Minimum="-2" Maximum="2" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25"/>
-                    <Slider x:Name="yScaleSlider" HorizontalAlignment="Center" Margin="8,0,5,371" VerticalAlignment="Bottom" Height="22" Width="324" Minimum="-2" Maximum="2" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25" ValueChanged="yScaleSlider_ValueChanged"/>
-                    <Slider x:Name="zScaleSlider" HorizontalAlignment="Center" Margin="8,0,5,341" VerticalAlignment="Bottom" Height="22" Width="324" Minimum="-2" Maximum="2" MinWidth="300" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25" ValueChanged="zScaleSlider_ValueChanged"/>
+                    <Slider x:Name="xTranslationSlider" HorizontalAlignment="Center" Margin="96,23,26.6,622.4" VerticalAlignment="Center" Height="25" Width="219" ValueChanged="xTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="150" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="yTranslationSlider" HorizontalAlignment="Center" Margin="98,54,26.6,591.4" VerticalAlignment="Center" Height="25" Width="217" ValueChanged="yTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="150" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="zTranslationSlider" HorizontalAlignment="Center" Margin="98,84,26.6,561.4" VerticalAlignment="Center" Height="22" Width="217" ValueChanged="zTranslationSlider_ValueChanged" Minimum="-1" Maximum="1" MinWidth="150" MinHeight="25" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="xRotationSlider" HorizontalAlignment="Center" Margin="96,133,26.6,512.4" VerticalAlignment="Center" Height="22" Width="219" ValueChanged="xRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="yRotationSlider" HorizontalAlignment="Center" Margin="96,163,26.6,482.4" VerticalAlignment="Center" Height="22" Width="219" ValueChanged="yRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Slider x:Name="zRotationSlider" HorizontalAlignment="Center" Margin="96,0,26.6,452.4" VerticalAlignment="Bottom" Height="22" Width="219" ValueChanged="zRotationSlider_ValueChanged" Minimum="-180" Maximum="180" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center"/>
+                    <Button x:Name="cutFacesButton" Content="Hide invisible faces" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Margin="78,362,0,0" Click="cutFacesButton_Click" RenderTransformOrigin="0.555,2.136"/>
+                    <Button x:Name="resetButton" Content="Reset" HorizontalAlignment="Left" Margin="78,396,0,0" VerticalAlignment="Top" Width="50" Click="resetButton_Click"/>
+                    <Button x:Name="saveButton" Content="Save" HorizontalAlignment="Left" Margin="138,396,0,0" VerticalAlignment="Top" Width="50" Click="saveButton_Click"/>
+                    <Slider x:Name="xScaleSlider" HorizontalAlignment="Center" Margin="96,0,26.6,401.4" VerticalAlignment="Bottom" Height="22" Width="219" ValueChanged="xScaleSlider_ValueChanged" Minimum="-2" Maximum="2" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25"/>
+                    <Slider x:Name="yScaleSlider" HorizontalAlignment="Center" Margin="96,0,26.6,371.4" VerticalAlignment="Bottom" Height="22" Width="219" Minimum="-2" Maximum="2" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25" ValueChanged="yScaleSlider_ValueChanged"/>
+                    <Slider x:Name="zScaleSlider" HorizontalAlignment="Center" Margin="96,0,26.6,341.4" VerticalAlignment="Bottom" Height="22" Width="219" Minimum="-2" Maximum="2" MinWidth="150" MinHeight="25" Padding="0,0,0,3" HorizontalContentAlignment="Center" Value="0.25" ValueChanged="zScaleSlider_ValueChanged"/>
+                    <Label x:Name="translationLabel" Content="Translation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,0,0,0" RenderTransformOrigin="0.488,1.016"/>
+                    <Label x:Name="xTranslationLabel" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,23,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="yTranslationLabel" Content="Y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,54,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="zTranslationLabel" Content="Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,84,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="xRotationLabel" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,133,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="yRotationLabel" Content="Y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,163,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="zRotationLabel" Content="Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,194,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="xScaleLabel" Content="X" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,244,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="yScaleLabel" Content="Y" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,275,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="zScaleLabel" Content="Z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="78,304,0,0" RenderTransformOrigin="1.187,0.391"/>
+                    <Label x:Name="rotationSlider" Content="Rotation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,107,0,0" RenderTransformOrigin="0.488,1.016"/>
+                    <Label x:Name="scaleLabel" Content="Scale" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="165,223,0,0" RenderTransformOrigin="0.488,1.016"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -52,7 +64,6 @@
             <ComboBoxItem>Orthogonal</ComboBoxItem>
         </ComboBox>
         <Button x:Name="aboutProgramButton" Content="About program" HorizontalAlignment="Left" Margin="1068,269,0,0" VerticalAlignment="Top" Width="106" Click="aboutProgramButton_Click"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="fileStructureButton" Content="File structure" HorizontalAlignment="Left" Margin="1068,307,0,0" VerticalAlignment="Top" Width="106" Click="fileStructureButton_Click"/>
 
 
